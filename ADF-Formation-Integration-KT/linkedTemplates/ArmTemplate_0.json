@@ -186,6 +186,12 @@
 						"typeProperties": {
 							"source": {
 								"type": "DelimitedTextSource",
+								"additionalColumns": [
+									{
+										"name": "SourceFileName",
+										"value": "$$FILEPATH"
+									}
+								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
@@ -209,6 +215,67 @@
 							"enableStaging": false,
 							"translator": {
 								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Journée gazière",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Journée gazière",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Couleur du signal (ENG)",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Couleur du signal (ENG)",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Couleur du signal (FR)",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Couleur du signal (FR)",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Indice de couleur",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Indice de couleur",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SourceFileName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SourceFileName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
 								"typeConversion": true,
 								"typeConversionSettings": {
 									"allowDataTruncation": true,
