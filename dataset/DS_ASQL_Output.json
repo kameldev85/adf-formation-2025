@@ -1,0 +1,16 @@
+{
+	"name": "DS_ASQL_Output",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ASQL_Formation",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "signalecogaz"
+		}
+	}
+}
