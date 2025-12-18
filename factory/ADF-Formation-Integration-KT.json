@@ -9,6 +9,10 @@
 			"SQLServerHostname": {
 				"type": "string",
 				"value": "mss-formation-kt.database.windows.net"
+			},
+			"SQLServerDBName": {
+				"type": "string",
+				"value": "free-sql-db-kt"
 			}
 		}
 	},
