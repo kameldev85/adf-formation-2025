@@ -17,9 +17,9 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"pl_target_file": "flux-commerciaux.csv",
 						"pl_foldername": "fluxcommerciaux",
-						"pl_targetFileName": "outputFC.csv"
+						"pl_targetFileName": "output-fc.csv",
+						"pl_inputFileName": "flux-commerciaux.csv"
 					}
 				}
 			},
@@ -38,9 +38,9 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"pl_target_file": "productiongaz",
-						"pl_foldername": "prod-gaz.csv",
-						"pl_targetFileName": "pg.csv"
+						"pl_foldername": "productiongaz",
+						"pl_targetFileName": "output-pg.csv",
+						"pl_inputFileName": "prod-gaz.csv"
 					}
 				}
 			},
@@ -59,9 +59,9 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"pl_target_file": "consoelect.csv",
 						"pl_foldername": "consoelect",
-						"pl_targetFileName": "ce.csv"
+						"pl_targetFileName": "output-ce.csv",
+						"pl_inputFileName": "consoelect.csv"
 					}
 				}
 			}

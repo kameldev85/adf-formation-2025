@@ -57,9 +57,10 @@
 								"type": "Expression"
 							},
 							"ds_filename": {
-								"value": "@pipeline().parameters.pl_target_file",
+								"value": "@pipeline().parameters.pl_inputFileName",
 								"type": "Expression"
-							}
+							},
+							"ds_storage_account_url": "https://saformationadfkt.dfs.core.windows.net"
 						}
 					}
 				],
@@ -72,21 +73,25 @@
 							"ds_filename": {
 								"value": "@pipeline().parameters.pl_targetFileName",
 								"type": "Expression"
-							}
+							},
+							"ds_storage_account_url": "https://saformationadfkt.dfs.core.windows.net"
 						}
 					}
 				]
 			}
 		],
 		"parameters": {
-			"pl_target_file": {
-				"type": "string"
-			},
 			"pl_foldername": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "'fluxcommerciaux\""
 			},
 			"pl_targetFileName": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "'output-fc.csv'"
+			},
+			"pl_inputFileName": {
+				"type": "String",
+				"defaultValue": "'flux-commerciaux.csv'"
 			}
 		},
 		"annotations": []

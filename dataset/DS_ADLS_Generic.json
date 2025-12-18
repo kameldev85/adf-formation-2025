@@ -3,7 +3,13 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_ADLS_Generic",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"p_StorageContainer": {
+					"value": "@dataset().ds_storage_account_url",
+					"type": "Expression"
+				}
+			}
 		},
 		"parameters": {
 			"ds_folder": {
@@ -11,6 +17,10 @@
 			},
 			"ds_filename": {
 				"type": "String"
+			},
+			"ds_storage_account_url": {
+				"type": "String",
+				"defaultValue": "https://saformationadfkt.dfs.core.windows.net"
 			}
 		},
 		"folder": {
@@ -35,24 +45,7 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "Journée gazière",
-				"type": "String"
-			},
-			{
-				"name": "Couleur du signal (ENG)",
-				"type": "String"
-			},
-			{
-				"name": "Couleur du signal (FR)",
-				"type": "String"
-			},
-			{
-				"name": "Indice de couleur",
-				"type": "String"
-			}
-		]
+		"schema": []
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
 }
