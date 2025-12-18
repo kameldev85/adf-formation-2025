@@ -1,0 +1,31 @@
+{
+	"name": "LS_MSSQL_Formation_Dynamique",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"SQLServerHostName": {
+				"type": "String"
+			},
+			"SQLServerDBName": {
+				"type": "String"
+			},
+			"SQLServerAdminUser": {
+				"type": "String"
+			},
+			"SQLServerPassword": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "@{linkedService().SQLServerHostName}",
+			"database": "@{linkedService().SQLServerDBName}",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "@{linkedService().SQLServerAdminUser}",
+			"password": "@{linkedService().SQLServerPassword}"
+		}
+	}
+}
