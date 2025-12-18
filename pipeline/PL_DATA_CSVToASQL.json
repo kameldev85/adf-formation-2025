@@ -122,7 +122,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_ASQL_Output",
+						"referenceName": "DS_ASQL",
 						"type": "DatasetReference"
 					}
 				]

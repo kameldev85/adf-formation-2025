@@ -1,0 +1,189 @@
+{
+	"name": "PL_InjectionFromAPI",
+	"properties": {
+		"activities": [
+			{
+				"name": "CP_DS_REST_to_SQL_Server",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['gas_day']"
+								},
+								"sink": {
+									"name": "Journée gazière",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['color']"
+								},
+								"sink": {
+									"name": "Couleur du signal (ENG)",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['couleur_du_signal_fr']"
+								},
+								"sink": {
+									"name": "Couleur du signal (FR)",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['indice_de_couleur']"
+								},
+								"sink": {
+									"name": "Indice de couleur",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": "$['results']",
+						"mapComplexValuesToString": false
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_REST_API_Ecogaz",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_ASQL",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Set BaseURL",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "BaseURL",
+					"value": {
+						"value": "@pipeline().globalParameters.BaseURL",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set Tableau",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Tableau",
+					"value": [
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			},
+			{
+				"name": "Append New Item",
+				"type": "AppendVariable",
+				"dependsOn": [
+					{
+						"activity": "Set Tableau",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Tableau",
+					"value": {
+						"value": "@pipeline().TriggerTime",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set TableauFinal",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Append New Item",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "TableauFinal",
+					"value": {
+						"value": "@variables('Tableau')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"p_BaseURL": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"BaseURL": {
+				"type": "String"
+			},
+			"Tableau": {
+				"type": "Array"
+			},
+			"TableauFinal": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}

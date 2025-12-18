@@ -1,9 +1,12 @@
 {
-	"name": "DS_ASQL_Output",
+	"name": "DS_ASQL",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_ASQL_Formation",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SQL"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",

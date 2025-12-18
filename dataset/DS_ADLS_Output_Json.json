@@ -5,6 +5,9 @@
 			"referenceName": "LS_ADLS_FORMATION_KT",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "ADLS"
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
