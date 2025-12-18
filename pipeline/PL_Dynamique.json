@@ -1,0 +1,71 @@
+{
+	"name": "PL_Dynamique",
+	"properties": {
+		"activities": [
+			{
+				"name": "CP_SQL_To_ADLS",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select * from signalecogaz",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SQL_Formation_Dynamique",
+						"type": "DatasetReference",
+						"parameters": {
+							"DS_SQLServerName": {
+								"value": "@pipeline().globalParameters.SQLServerHostname",
+								"type": "Expression"
+							},
+							"DS_SQLServerAdminUser": {
+								"value": "@pipeline().globalParameters.SQLServerAdmin",
+								"type": "Expression"
+							},
+							"DS_SQLServerDBName": {
+								"value": "@pipeline().globalParameters.SQLServerDBName",
+								"type": "Expression"
+							},
+							"DS_SQLServerPassword": {
+								"value": "@pipeline().globalParameters.SQLServerPassword",
+								"type": "Expression"
+							},
+							"Schema": "dbo",
+							"TableName": "signalecogaz"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_ADLS_Output_Json",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
