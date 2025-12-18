@@ -1,0 +1,10 @@
+{
+	"name": "LS_AKV_Formation",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://KV-Formation-ADF-KT.vault.azure.net/"
+		}
+	}
+}
