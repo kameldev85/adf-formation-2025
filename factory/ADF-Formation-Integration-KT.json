@@ -17,6 +17,10 @@
 			"SQLServerAdmin": {
 				"type": "string",
 				"value": "admin-kt"
+			},
+			"SQLServerPassword": {
+				"type": "string",
+				"value": "Mexique$85"
 			}
 		}
 	},
