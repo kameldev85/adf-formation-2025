@@ -1,5 +1,13 @@
 {
 	"name": "ADF-Formation-Integration-KT",
+	"properties": {
+		"globalParameters": {
+			"BaseURL": {
+				"type": "string",
+				"value": "https://odre.opendatasoft.com/api/explore/v2.1/"
+			}
+		}
+	},
 	"location": "francecentral",
 	"identity": {
 		"type": "SystemAssigned",
