@@ -5,6 +5,10 @@
 			"BaseURL": {
 				"type": "string",
 				"value": "https://odre.opendatasoft.com/api/explore/v2.1/"
+			},
+			"SQLServerHostname": {
+				"type": "string",
+				"value": "mss-formation-kt.database.windows.net"
 			}
 		}
 	},
