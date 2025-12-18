@@ -1,10 +1,15 @@
 {
 	"name": "LS_ADLS_Generic",
 	"properties": {
+		"parameters": {
+			"p_StorageContainer": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"type": "AzureBlobFS",
 		"typeProperties": {
-			"url": "https://saformationadfkt.dfs.core.windows.net/",
+			"url": "@{linkedService().p_StorageContainer}",
 			"accountKey": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
