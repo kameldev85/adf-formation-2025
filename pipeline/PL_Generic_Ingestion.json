@@ -1,0 +1,94 @@
+{
+	"name": "PL_Generic_Ingestion",
+	"properties": {
+		"activities": [
+			{
+				"name": "CP_DynamicData",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_ADLS_Generic",
+						"type": "DatasetReference",
+						"parameters": {
+							"ds_folder": {
+								"value": "@pipeline().parameters.pl_foldername",
+								"type": "Expression"
+							},
+							"ds_filename": {
+								"value": "@pipeline().parameters.pl_target_file",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_ADLS_Generic",
+						"type": "DatasetReference",
+						"parameters": {
+							"ds_folder": "output",
+							"ds_filename": {
+								"value": "@pipeline().parameters.pl_targetFileName",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"pl_target_file": {
+				"type": "string"
+			},
+			"pl_foldername": {
+				"type": "String"
+			},
+			"pl_targetFileName": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}

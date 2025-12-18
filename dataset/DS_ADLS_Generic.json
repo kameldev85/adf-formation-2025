@@ -1,0 +1,58 @@
+{
+	"name": "DS_ADLS_Generic",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_Generic",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"ds_folder": {
+				"type": "String"
+			},
+			"ds_filename": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "ADLS"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().ds_filename",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().ds_folder",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Journée gazière",
+				"type": "String"
+			},
+			{
+				"name": "Couleur du signal (ENG)",
+				"type": "String"
+			},
+			{
+				"name": "Couleur du signal (FR)",
+				"type": "String"
+			},
+			{
+				"name": "Indice de couleur",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

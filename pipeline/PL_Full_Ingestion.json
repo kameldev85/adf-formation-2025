@@ -1,0 +1,71 @@
+{
+	"name": "PL_Full_Ingestion",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_commerce_data",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_Generic_Ingestion",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"pl_target_file": "flux-commerciaux.csv",
+						"pl_foldername": "fluxcommerciaux",
+						"pl_targetFileName": "outputFC.csv"
+					}
+				}
+			},
+			{
+				"name": "PL_production_gaz",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_Generic_Ingestion",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"pl_target_file": "productiongaz",
+						"pl_foldername": "prod-gaz.csv",
+						"pl_targetFileName": "pg.csv"
+					}
+				}
+			},
+			{
+				"name": "PL_consoelect",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_Generic_Ingestion",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"pl_target_file": "consoelect.csv",
+						"pl_foldername": "consoelect",
+						"pl_targetFileName": "ce.csv"
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
