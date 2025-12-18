@@ -138,7 +138,7 @@
 				"typeProperties": {
 					"variableName": "Tableau",
 					"value": {
-						"value": "@pipeline().TriggerTime",
+						"value": "{\n    \"pipeline\": \"@{pipeline().Pipeline}\",\n    \"adf\": \"@{pipeline().DataFactory}\"\n}",
 						"type": "Expression"
 					}
 				}

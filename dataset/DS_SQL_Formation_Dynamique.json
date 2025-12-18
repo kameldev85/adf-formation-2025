@@ -1,0 +1,63 @@
+{
+	"name": "DS_SQL_Formation_Dynamique",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_MSSQL_Formation_Dynamique",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"SQLServerHostName": {
+					"value": "@dataset().DS_SQLServerName",
+					"type": "Expression"
+				},
+				"SQLServerDBName": {
+					"value": "@dataset().DS_SQLServerDBName",
+					"type": "Expression"
+				},
+				"SQLServerAdminUser": {
+					"value": "@dataset().DS_SQLServerAdminUser",
+					"type": "Expression"
+				},
+				"SQLServerPassword": {
+					"value": "@dataset().DS_SQLServerPassword",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"DS_SQLServerName": {
+				"type": "string"
+			},
+			"DS_SQLServerAdminUser": {
+				"type": "string"
+			},
+			"DS_SQLServerDBName": {
+				"type": "string"
+			},
+			"DS_SQLServerPassword": {
+				"type": "string"
+			},
+			"Schema": {
+				"type": "string"
+			},
+			"TableName": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "SQL"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().Schema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().TableName",
+				"type": "Expression"
+			}
+		}
+	}
+}
