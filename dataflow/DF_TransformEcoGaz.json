@@ -1,0 +1,77 @@
+{
+	"name": "DF_TransformEcoGaz",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_ADLS_Input_CSV",
+						"type": "DatasetReference"
+					},
+					"name": "EcoGazSource"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LS_ADLS_FORMATION_KT",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenameDateColumn"
+				},
+				{
+					"name": "AddWeekEnd"
+				},
+				{
+					"name": "filterWeekEndData"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Journée gazière} as date,",
+				"          {Couleur du signal (ENG)} as string,",
+				"          {Couleur du signal (FR)} as string,",
+				"          {Indice de couleur} as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> EcoGazSource",
+				"EcoGazSource select(mapColumn(",
+				"          Date = {Journée gazière},",
+				"          Couleur_du_signal = {Couleur du signal (FR)},",
+				"          Indice_de_couleur = {Indice de couleur}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenameDateColumn",
+				"RenameDateColumn derive(WeekEnd = dayOfWeek(Date) == 1 || dayOfWeek(Date) == 7) ~> AddWeekEnd",
+				"AddWeekEnd filter(WeekEnd) ~> filterWeekEndData",
+				"filterWeekEndData sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'delta',",
+				"     compressionType: 'snappy',",
+				"     compressionLevel: 'Fastest',",
+				"     fileSystem: 'output',",
+				"     folderPath: 'delta',",
+				"     mergeSchema: false,",
+				"     autoCompact: false,",
+				"     optimizedWrite: false,",
+				"     vacuum: 0,",
+				"     deletable: false,",
+				"     insertable: true,",
+				"     updateable: false,",
+				"     upsertable: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
