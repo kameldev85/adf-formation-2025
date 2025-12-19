@@ -1,0 +1,86 @@
+{
+	"name": "DF_Clean_Ecogaz",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_ADLS_Input_CSV",
+						"type": "DatasetReference"
+					},
+					"name": "SourceEcogazCSV"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LS_ASQL_Formation",
+						"type": "LinkedServiceReference"
+					},
+					"name": "StatsEcogazAlertes"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NettoyageColonnes"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "filterOrangeAndRed"
+				},
+				{
+					"name": "aggregateOnColor"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Journée gazière} as date 'dd/MM/yyyy',",
+				"          {Couleur du signal (ENG)} as string,",
+				"          {Couleur du signal (FR)} as string,",
+				"          {Indice de couleur} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceEcogazCSV",
+				"SourceEcogazCSV select(mapColumn(",
+				"          Gaz_Day = {Journée gazière},",
+				"          Color = {Couleur du signal (ENG)},",
+				"          Couleur = {Couleur du signal (FR)},",
+				"          ColorIndice = {Indice de couleur}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> NettoyageColonnes",
+				"NettoyageColonnes derive(LibelleCouleur = iif(\r",
+				"    ColorIndice == '1', \r",
+				"    'Vert', \r",
+				"    iif(\r",
+				"        ColorIndice == '2', \r",
+				"        'Orange',\r",
+				"        'Rouge'\r",
+				"    )\r",
+				"),",
+				"          Est_Weekend = dayOfWeek(Gaz_Day) == 1 || dayOfWeek(Gaz_Day) == 7) ~> derivedColumn1",
+				"derivedColumn1 filter(Color == 'Orange' || Color == 'Red') ~> filterOrangeAndRed",
+				"filterOrangeAndRed aggregate(groupBy(LibelleCouleur),",
+				"     Nombre_Alertes = count()) ~> aggregateOnColor",
+				"aggregateOnColor sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'dbo',",
+				"     tableName: 'Stats_Ecogaz_Alertes',",
+				"     insertable: true,",
+				"     updateable: false,",
+				"     deletable: false,",
+				"     upsertable: false,",
+				"     recreate: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> StatsEcogazAlertes"
+			]
+		}
+	}
+}
